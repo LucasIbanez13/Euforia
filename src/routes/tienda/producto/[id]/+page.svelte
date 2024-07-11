@@ -10,7 +10,7 @@
 
   let idProducts = [];
   let id = '';
-  let loading = true; // Variable para controlar el estado de carga
+  let loading = true;
   let selectedSize = '';
   let selectedColor = '';
 
@@ -32,12 +32,10 @@
     }
   });
 
-  // Función para manejar el clic en un producto
   function handleProductClick(productId) {
-    goto(`/tienda/${id}/${productId}`); // Redirige a la vista del producto con su ID
+    goto(`/tienda/${id}/${productId}`);
   }
 
-  // Función para añadir el producto al carrito y mostrar una notificación
   function addToCart(product) {
     if ((!selectedSize && product.TALLE && product.TALLE !== 'NO') || (!selectedColor && product.COLOR && product.COLOR !== 'NO')) {
       toastMessage.set('Por favor selecciona un tamaño y un color.');
@@ -58,14 +56,12 @@
       }
     });
 
-    // Mostrar notificación personalizada
     toastMessage.set('Producto añadido al carrito.');
     setTimeout(() => {
       toastMessage.set('');
     }, 5000);
   }
 
-  // Función para verificar si un color está disponible para el producto actual
   function isColorAvailable(product, color) {
     return product.COLOR.includes(color);
   }

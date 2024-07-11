@@ -23,7 +23,14 @@
 
     let message = "Hola, me gustaría comprar los siguientes productos:\n\n";
     cartItems.forEach(item => {
-      message += `Producto: ${item.PRODUCTO}\nCantidad: ${item.quantity}\nPrecio: $${item.PRECIO}\n\n`;
+      message += `Producto: ${item.PRODUCTO}\nCantidad: ${item.quantity}\nPrecio: $${item.PRECIO}\n`;
+      if (item.size) {
+        message += `Talle: ${item.size}\n`;
+      }
+      if (item.color) {
+        message += `Color: ${item.color}\n`;
+      }
+      message += `\n`;
     });
     const total = cartItems.reduce((acc, item) => acc + (item.quantity * item.PRECIO), 0);
     message += `Total: $${total}`;
@@ -76,6 +83,12 @@
             {#each $cart as item}
               <li class="mb-4 flex justify-between items-center">
                 <p class="text-sm text-gray-500">{item.PRODUCTO} - {item.quantity} x ${item.PRECIO}</p>
+                {#if item.size}
+                  <p class="text-sm text-gray-500">Talle: {item.size}</p>
+                {/if}
+                {#if item.color}
+                  <p class="text-sm text-gray-500">Color: {item.color}</p>
+                {/if}
                 <button on:click={() => removeItem(item.ID)} class="text-red-500">Eliminar</button>
               </li>
             {/each}
