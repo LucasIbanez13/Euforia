@@ -39,7 +39,7 @@
 
   // Función para añadir el producto al carrito y mostrar una notificación
   function addToCart(product) {
-    if (!selectedSize || !selectedColor) {
+    if ((!selectedSize && product.TALLE && product.TALLE !== 'NO') || (!selectedColor && product.COLOR && product.COLOR !== 'NO')) {
       toastMessage.set('Por favor selecciona un tamaño y un color.');
       return;
     }
@@ -130,29 +130,33 @@
                 <div class="flex w-full md:justify-start justify-center items-end">
                   <div class="relative mr-4 lg:w-full xl:w-1/2 w-2/4">
                     <p class="mb-8 leading-relaxed">{product.PRECIO}</p>
-                    <div>
-                      <p class="mb-2">Selecciona un tamaño:</p>
-                      <select class="w-full p-2 border rounded" bind:value={selectedSize}>
-                        {#each product.TALLE.split('/') as size}
-                          <option value={size.trim()}>{size.trim()}</option>
-                        {/each}
-                      </select>
-                    </div>
-                    <div class="mt-4">
-                      <p class="mb-2">Selecciona un color:</p>
-                      <div class="color-selector">
-                        {#if isColorAvailable(product, 'ROJO')}
-                          <span class="color-circle {selectedColor === 'ROJO' ? 'selected' : ''}" style="background-color: red;" on:click={() => selectedColor = 'ROJO'}></span>
-                        {/if}
-                        {#if isColorAvailable(product, 'BLANCO')}
-                          <span class="color-circle {selectedColor === 'BLANCO' ? 'selected' : ''}" style="background-color: white;" on:click={() => selectedColor = 'BLANCO'}></span>
-                        {/if}
-                        {#if isColorAvailable(product, 'NEGRO')}
-                          <span class="color-circle {selectedColor === 'NEGRO' ? 'selected' : ''}" style="background-color: black;" on:click={() => selectedColor = 'NEGRO'}></span>
-                        {/if}
-                        <!-- Añade más colores según necesites -->
+                    {#if product.TALLE && product.TALLE !== 'NO'}
+                      <div>
+                        <p class="mb-2">Selecciona un tamaño:</p>
+                        <select class="w-full p-2 border rounded" bind:value={selectedSize}>
+                          {#each product.TALLE.split('/') as size}
+                            <option value={size.trim()}>{size.trim()}</option>
+                          {/each}
+                        </select>
                       </div>
-                    </div>
+                    {/if}
+                    {#if product.COLOR && product.COLOR !== 'NO'}
+                      <div class="mt-4">
+                        <p class="mb-2">Selecciona un color:</p>
+                        <div class="color-selector">
+                          {#if isColorAvailable(product, 'ROJO')}
+                            <span class="color-circle {selectedColor === 'ROJO' ? 'selected' : ''}" style="background-color: red;" on:click={() => selectedColor = 'ROJO'}></span>
+                          {/if}
+                          {#if isColorAvailable(product, 'BLANCO')}
+                            <span class="color-circle {selectedColor === 'BLANCO' ? 'selected' : ''}" style="background-color: white;" on:click={() => selectedColor = 'BLANCO'}></span>
+                          {/if}
+                          {#if isColorAvailable(product, 'NEGRO')}
+                            <span class="color-circle {selectedColor === 'NEGRO' ? 'selected' : ''}" style="background-color: black;" on:click={() => selectedColor = 'NEGRO'}></span>
+                          {/if}
+                          <!-- Añade más colores según necesites -->
+                        </div>
+                      </div>
+                    {/if}
                   </div>
                   <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" on:click={() => addToCart(product)}>Comprar</button>
                 </div>
