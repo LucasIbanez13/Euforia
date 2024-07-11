@@ -13,6 +13,7 @@
   let loading = true;
   let selectedSize = '';
   let selectedColor = '';
+  let quantity = 1;
 
   const toastMessage = writable('');
 
@@ -65,10 +66,10 @@
       }
       const itemIndex = items.findIndex(item => item.ID === product.ID && item.size === selectedSize && item.color === selectedColor);
       if (itemIndex === -1) {
-        return [...items, { ...product, size: selectedSize, color: selectedColor, quantity: 1 }];
+        return [...items, { ...product, size: selectedSize, color: selectedColor, quantity }];
       } else {
         const updatedItems = [...items];
-        updatedItems[itemIndex].quantity += 1;
+        updatedItems[itemIndex].quantity += quantity;
         return updatedItems;
       }
     });
@@ -165,6 +166,10 @@
                         </div>
                       </div>
                     {/if}
+                    <div class="mt-4">
+                      <p class="mb-2">Cantidad:</p>
+                      <input type="number" min="1" value={quantity} class="w-full p-2 border rounded" on:input="{e => quantity = +e.target.value}">
+                    </div>
                   </div>
                   <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" on:click={() => addToCart(product)}>Comprar</button>
                 </div>

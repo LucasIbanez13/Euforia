@@ -16,6 +16,17 @@
     cart.update(items => items.filter(item => item.ID !== id));
   };
 
+  const updateQuantity = (id, quantity) => {
+    cart.update(items => {
+      const updatedItems = [...items];
+      const index = updatedItems.findIndex(item => item.ID === id);
+      if (index !== -1) {
+        updatedItems[index].quantity = quantity;
+      }
+      return updatedItems;
+    });
+  };
+
   const generateWhatsAppMessage = (cartItems) => {
     if (cartItems.length === 0) {
       return "Mi carrito está vacío.";
@@ -80,9 +91,11 @@
       <div class="mt-2 px-7 py-3">
         {#if $cart.length > 0}
           <ul>
-            {#each $cart as item}
+            {#each $cart as item (item.ID)}
               <li class="mb-4 flex justify-between items-center">
-                <p class="text-sm text-gray-500">{item.PRODUCTO} - {item.quantity} x ${item.PRECIO}</p>
+                <p class="text-sm text-gray-500">{item.PRODUCTO} - 
+                  <input type="number" min="1" value={item.quantity} class="w-16 p-1 border rounded" on:input="{e => updateQuantity(item.ID, +e.target.value)}"> x ${item.PRECIO}
+                </p>
                 {#if item.size}
                   <p class="text-sm text-gray-500">Talle: {item.size}</p>
                 {/if}
