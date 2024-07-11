@@ -70,8 +70,8 @@
 <style>
   .toast {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    top: 40px;  /* Margen superior de 30px */
+    right: 80px;
     background-color: #333;
     color: white;
     padding: 10px 20px;
