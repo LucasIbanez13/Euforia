@@ -16,6 +16,23 @@
 
   const toastMessage = writable('');
 
+  const colors = [
+    { name: 'ROJO', hex: 'red' },
+    { name: 'BLANCO', hex: 'white' },
+    { name: 'NEGRO', hex: 'black' },
+    { name: 'VISON', hex: '#c8b9a6' },
+    { name: 'AMARILLO', hex: 'yellow' },
+    { name: 'VERDE', hex: 'green' },
+    { name: 'ROSA', hex: 'pink' },
+    { name: 'MORADO', hex: 'purple' },
+    { name: 'GRIS', hex: 'gray' },
+    { name: 'NARANJA', hex: 'orange' },
+    { name: 'FUCSIA', hex: 'fuchsia' },
+    { name: 'AZUL', hex: 'blue' },
+    { name: 'DORADO', hex: 'gold' },
+    { name: 'CELESTE', hex: 'lightblue' }
+  ];
+
   onMount(async () => {
     id = get(page).params.id;
 
@@ -140,16 +157,11 @@
                       <div class="mt-4">
                         <p class="mb-2">Selecciona un color:</p>
                         <div class="color-selector">
-                          {#if isColorAvailable(product, 'ROJO')}
-                            <span class="color-circle {selectedColor === 'ROJO' ? 'selected' : ''}" style="background-color: red;" on:click={() => selectedColor = 'ROJO'}></span>
-                          {/if}
-                          {#if isColorAvailable(product, 'BLANCO')}
-                            <span class="color-circle {selectedColor === 'BLANCO' ? 'selected' : ''}" style="background-color: white;" on:click={() => selectedColor = 'BLANCO'}></span>
-                          {/if}
-                          {#if isColorAvailable(product, 'NEGRO')}
-                            <span class="color-circle {selectedColor === 'NEGRO' ? 'selected' : ''}" style="background-color: black;" on:click={() => selectedColor = 'NEGRO'}></span>
-                          {/if}
-                          <!-- Añade más colores según necesites -->
+                          {#each colors as color}
+                            {#if isColorAvailable(product, color.name)}
+                              <span class="color-circle {selectedColor === color.name ? 'selected' : ''}" style="background-color: {color.hex};" on:click={() => selectedColor = color.name}></span>
+                            {/if}
+                          {/each}
                         </div>
                       </div>
                     {/if}
