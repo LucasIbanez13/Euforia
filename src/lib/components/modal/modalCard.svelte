@@ -12,19 +12,14 @@
     }
   };
 
-  const removeItem = (id) => {
-    cart.update(items => items.filter(item => item.ID !== id));
+  const handleClickOutside = (event) => {
+    if (event.target.classList.contains('modal')) {
+      toggleModal();
+    }
   };
 
-  const updateQuantity = (id, quantity) => {
-    cart.update(items => {
-      const updatedItems = [...items];
-      const index = updatedItems.findIndex(item => item.ID === id);
-      if (index !== -1) {
-        updatedItems[index].quantity = quantity;
-      }
-      return updatedItems;
-    });
+  const removeItem = (id) => {
+    cart.update(items => items.filter(item => item.ID !== id));
   };
 
   const generateWhatsAppMessage = (cartItems) => {
@@ -80,22 +75,33 @@
   .modal {
     z-index: 50;
   }
+
+  .cart-list {
+    max-height: 300px; /* Altura máxima para el contenedor de la lista */
+    overflow-y: auto; /* Barra de desplazamiento vertical si se supera la altura máxima */
+  }
+
+  .cart-item {
+    min-height: 50px; /* Altura mínima de cada elemento del carrito */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px; /* Espacio entre los elementos del carrito */
+  }
 </style>
 
 {#if $showModal}
-  <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full modal" id="my-modal">
+  <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full modal" id="my-modal" on:click={handleClickOutside}>
     <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
       <div class="flex justify-between items-center mb-3">
         <button on:click={toggleModal} class="text-gray-500"><i class="fa-solid fa-x"></i></button>
       </div>
       <div class="mt-2 px-7 py-3">
         {#if $cart.length > 0}
-          <ul>
-            {#each $cart as item (item.ID)}
-              <li class="mb-4 flex justify-between items-center">
-                <p class="text-sm text-gray-500">{item.PRODUCTO} - 
-                  <input type="number" min="1" value={item.quantity} class="w-16 p-1 border rounded" on:input="{e => updateQuantity(item.ID, +e.target.value)}"> x ${item.PRECIO}
-                </p>
+          <div class="cart-list">
+            {#each $cart as item}
+              <div class="cart-item">
+                <p class="text-sm text-gray-500">{item.PRODUCTO} - {item.quantity} x ${item.PRECIO}</p>
                 {#if item.size}
                   <p class="text-sm text-gray-500">Talle: {item.size}</p>
                 {/if}
@@ -103,9 +109,9 @@
                   <p class="text-sm text-gray-500">Color: {item.color}</p>
                 {/if}
                 <button on:click={() => removeItem(item.ID)} class="text-red-500">Eliminar</button>
-              </li>
+              </div>
             {/each}
-          </ul>
+          </div>
         {:else}
           <p class="text-sm text-gray-500">Tu carrito está vacío.</p>
         {/if}
