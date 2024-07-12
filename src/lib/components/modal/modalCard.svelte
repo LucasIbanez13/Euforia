@@ -113,7 +113,7 @@
             {/each}
           </div>
         {:else}
-          <p class="text-sm text-gray-500">Tu carrito está vacío.</p>
+          <p class="text-sm text-gray-500">Tu carrito está vacío.</p> 
         {/if}
       </div>
       <div class="items-center px-4 py-3">
