@@ -83,6 +83,16 @@
   function isColorAvailable(product, color) {
     return product.COLOR.includes(color);
   }
+
+  function increaseQuantity() {
+    quantity += 1;
+  }
+
+  function decreaseQuantity() {
+    if (quantity > 1) {
+      quantity -= 1;
+    }
+  }
 </script>
 
 <style>
@@ -113,8 +123,30 @@
     border: 2px solid transparent;
   }
 
-  .selected {
+  .color-circle.selected {
     border-color: #333;
+  }
+
+  .quantity-container {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  .quantity-control {
+    background-color: #eee;
+    border: none;
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+
+  .quantity-input {
+    width: 50px;
+    text-align: center;
+    margin: 0 10px;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
   }
 </style>
 
@@ -143,10 +175,10 @@
                 <p class="mb-8 leading-relaxed">{product.DESCRIPCION}</p>
                 <div class="flex w-full md:justify-start justify-center items-end">
                   <div class="relative mr-4 lg:w-full xl:w-1/2 w-2/4">
-                    <p class="mb-8 leading-relaxed">{product.PRECIO}</p>
+                    <p class="mb-4">{product.PRECIO}</p>
                     {#if product.TALLE && product.TALLE !== 'NO'}
                       <div>
-                        <p class="mb-2">Selecciona un tamaño:</p>
+                        <p class="mb-2">Tamaño:</p>
                         <select class="w-full p-2 border rounded" bind:value={selectedSize}>
                           {#each product.TALLE.split('/') as size}
                             <option value={size.trim()}>{size.trim()}</option>
@@ -156,7 +188,7 @@
                     {/if}
                     {#if product.COLOR && product.COLOR !== 'NO'}
                       <div class="mt-4">
-                        <p class="mb-2">Selecciona un color:</p>
+                        <p class="mb-2">Color:</p>
                         <div class="color-selector">
                           {#each colors as color}
                             {#if isColorAvailable(product, color.name)}
@@ -166,9 +198,10 @@
                         </div>
                       </div>
                     {/if}
-                    <div class="mt-4">
-                      <p class="mb-2">Cantidad:</p>
-                      <input type="number" min="1" value={quantity} class="w-full p-2 border rounded" on:input="{e => quantity = +e.target.value}">
+                    <div class="quantity-container mt-4">
+                      <button class="quantity-control" on:click={decreaseQuantity}>-</button>
+                      <input type="number" min="1" value={quantity} class="quantity-input" on:input="{e => quantity = +e.target.value}">
+                      <button class="quantity-control" on:click={increaseQuantity}>+</button>
                     </div>
                   </div>
                   <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" on:click={() => addToCart(product)}>Comprar</button>
