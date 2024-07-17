@@ -46,7 +46,6 @@
 <main class="p-8 bg-gray-100 text-center">
   <NavBar />
 
-  
   <section class="text-gray-600 body-font">
     <div class="container mx-auto">
       <div class="flex flex-wrap justify-center">
@@ -67,11 +66,6 @@
       </div>
     </div>
   </section>
-  
-  
-  
-  
-  
 
   <section class="text-gray-600 body-font">
     <div class="container px-5 py-24 mx-auto">
@@ -83,9 +77,10 @@
             </div>
             <div class="mt-4">
               <h2 class="text-gray-900 title-font text-lg font-medium">{product.PRODUCTO}</h2>
-              <p class="mt-1">{product.CATEGORY}</p>
               <p class="mt-1">${product.PRECIO}</p>
-              <p class="mt-1">{product.DESCRIPCION}</p>
+            </div>
+            <div>
+              <button type="button" class="btn variant-filled bg-pink-500 text-white">Comprar</button>
             </div>
           </a>
         {/each}

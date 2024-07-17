@@ -1,5 +1,6 @@
 <script>
   import NavBar from '$lib/components/nav/navBar.svelte';
+  import Breadcrumbs from '$lib/components/migas/breadCrumbs.svelte';
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { get } from 'svelte/store';
@@ -30,12 +31,7 @@
 <main class="p-8 bg-gray-100 text-center">
   <NavBar />
 
-  <header class="text-gray-600 body-font pt-2">
-    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-      <a role="button" on:click={() => history.back()} class="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center mb-4 md:mb-0">Volver</a>
-
-    </div>
-  </header>
+  <Breadcrumbs />
 
   <section class="text-gray-600 body-font overflow-hidden">
     <div class="container px-5 py-12 mx-auto">
@@ -58,9 +54,11 @@
                   <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="{product.IMAGEN}">
                 </a>
                 <div class="mt-4">
-                  <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{product.CATEGORY}</h3>
                   <h2 class="text-gray-900 title-font text-lg font-medium">{product.PRODUCTO}</h2>
-                  <p class="mt-1">{product.PRECIO}</p>
+                  <p class="mt-1">${product.PRECIO}</p>
+                </div>
+                <div>
+                  <button type="button" class="btn variant-filled bg-pink-500 text-white">Comprar</button>
                 </div>
               </div>
             {/each}
